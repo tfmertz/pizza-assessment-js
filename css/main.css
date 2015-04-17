@@ -31,6 +31,10 @@ h3 {
   visibility: hidden;
 }
 
+#error {
+  display: none;
+}
+
 .cancel-order {
   color: black;
   text-decoration: underline;

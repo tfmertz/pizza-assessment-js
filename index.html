@@ -23,9 +23,7 @@
         <div id="placed-orders" class="col-sm-4">
           <h3>Placed Orders</h3>
 
-          <ul>
-            <li class="order"><span class="order-number">1</span> x <span class="order-type">Cheese</span> Total: <span class="total-cost"></span><span class="cancel-order glyphicon glyphicon-remove"></span></li>
-          </ul>
+          <ul id="order-list"></ul>
         </div>
 
         <div class="col-sm-4">
@@ -37,7 +35,7 @@
             </div>
 
             <div class="form-group">
-              <select name="pizza-type" class="form-control">
+              <select id="pizza-type" class="form-control">
                 <option default>Select your pizza</option>
                 <option value="1">Cheese</option>
                 <option value="2">Pepperoni</option>
@@ -48,6 +46,10 @@
 
             <button type="submit" class="btn btn-default">Place Order</button>
           </form>
+
+          <div id="error">
+            <h4>Please select a pizza from the list above!</h4>
+          </div>
         </div>
       </div>
     </div>
