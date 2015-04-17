@@ -36,14 +36,22 @@
 
             <div id="pizza-list">
               <div class="form-group select-pizza">
-                <label for="pizza-type">Select pizza: </label>
-                <select class="form-control pizza-type">
-                  <option default>Select your pizza</option>
-                  <option value="1">Cheese</option>
-                  <option value="2">Pepperoni</option>
-                  <option value="3">Hawaiian</option>
-                  <option value="4">Supreme</option>
-                </select>
+                <div class="row">
+                  <div class="col-xs-9">
+                    <label for="pizza-type">Select pizza: </label>
+                    <select class="form-control pizza-type">
+                      <option default>Select your pizza</option>
+                      <option value="1">Cheese</option>
+                      <option value="2">Pepperoni</option>
+                      <option value="3">Hawaiian</option>
+                      <option value="4">Supreme</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-3">
+                    <label for="pizza-quantity">Qty</label>
+                    <input type="number" id="pizza-quantity" class="form-control" value="1">
+                  </div>
+                </div>
               </div>
             </div>
 
