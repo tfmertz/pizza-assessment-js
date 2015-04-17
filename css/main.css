@@ -77,3 +77,7 @@ h3 {
 .pizza-cost {
   float: right;
 }
+
+h3 + p {
+  margin-top: 50px;
+}
