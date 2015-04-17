@@ -13,6 +13,13 @@ describe("Pizza", function() {
       pizza.init(2);
 
       expect(pizza.cost()).to.equal(12);
-    })
+    });
+
+    it("should tell the user 'We don't offer that selection! if they input an invalid value", function() {
+      var pizza = Object.create(Pizza);
+      pizza.init(10);
+
+      expect(pizza.cost()).to.equal("We don't offer that selection!");
+    });
   });
 });

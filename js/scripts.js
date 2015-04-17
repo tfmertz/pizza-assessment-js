@@ -1,13 +1,20 @@
 var Pizza = {
-  init: function() {
-    this.type = "cheese";
+  init: function(type) {
+    this.type = type;
   },
   cost: function() {
-    return 10;
+
+    switch(this.type) {
+      case 1: return 10;
+      break;
+      case 2: return 12;
+      break;
+      default: return "We don't offer that selection!"
+    }
   }
 };
 
 $(function() {
 
-  
+
 });
