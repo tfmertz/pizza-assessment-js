@@ -59,11 +59,12 @@ $(function() {
       //add its cost to the total if it is a valid pizza
       pizzaCost = pizza.cost() * pizzaNumber;
 
-      if(typeof(pizzaCost) === "number") {
+      //check that the cost is actually a valid number
+      if(!(isNaN(pizzaCost))) {
 
+        //if so add more pizza entries to our list and increase the total cost
         pizzaArray.push('<li>' + pizzaNumber + ' x ' + pizza.name + '<span class="pizza-cost">$' + pizzaCost +'</span></li>');
         totalCost += pizzaCost;
-        console.log(pizzaArray);
       } else {
         //if not make a flag to show the error and skip the rest
         validInput = false;
@@ -84,7 +85,6 @@ $(function() {
       var $orderList = $('<ul class="order__order-details"></ul>');
       //append all pizzas from our array to the list
       $.each(pizzaArray, function(index, element) {
-        console.log(element);
         $orderList.append(element);
       });
 
