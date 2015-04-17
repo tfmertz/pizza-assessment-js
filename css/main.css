@@ -17,9 +17,27 @@ header h1 {
 body {
   color: #FAFAFA;
   background-color: #C71E1E;
+}
+
+h3 {
   text-shadow: 1px 1px 1px #333;
 }
 
 #order-pizza {
-  margin-top: 15px;
+  margin-top: 30px;
+}
+
+#placed-orders {
+  visibility: hidden;
+}
+
+.cancel-order {
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+  padding-left: 20px;
+}
+
+.cancel-order:hover {
+  text-decoration: none;
 }

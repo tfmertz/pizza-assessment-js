@@ -19,7 +19,16 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-offset-4 col-sm-4">
+
+        <div id="placed-orders" class="col-sm-4">
+          <h3>Placed Orders</h3>
+
+          <ul>
+            <li class="order"><span class="order-number">1</span> x <span class="order-type">Cheese</span> Total: <span class="total-cost"></span><span class="cancel-order glyphicon glyphicon-remove"></span></li>
+          </ul>
+        </div>
+
+        <div class="col-sm-4">
           <h3>Order a Pizza</h3>
           <form id="order-pizza">
             <div class="form-group">
@@ -36,6 +45,8 @@
                 <option value="4">Supreme</option>
               </select>
             </div>
+
+            <button type="submit" class="btn btn-default">Place Order</button>
           </form>
         </div>
       </div>
