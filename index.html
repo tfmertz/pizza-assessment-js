@@ -34,17 +34,21 @@
               <input type="text" id="name" class="form-control">
             </div>
 
-            <div class="form-group">
-              <select id="pizza-type" class="form-control">
-                <option default>Select your pizza</option>
-                <option value="1">Cheese</option>
-                <option value="2">Pepperoni</option>
-                <option value="3">Hawaiian</option>
-                <option value="4">Supreme</option>
-              </select>
+            <div id="pizza-list">
+              <div class="form-group select-pizza">
+                <label for="pizza-type">Select pizza: </label>
+                <select class="form-control pizza-type">
+                  <option default>Select your pizza</option>
+                  <option value="1">Cheese</option>
+                  <option value="2">Pepperoni</option>
+                  <option value="3">Hawaiian</option>
+                  <option value="4">Supreme</option>
+                </select>
+              </div>
             </div>
 
-            <button type="submit" class="btn btn-default">Place Order</button>
+            <span id="add-pizza" class="btn btn-default">Add Pizza</span>
+            <button type="submit" class="btn btn-success">Place Order</button>
           </form>
 
           <div id="error">

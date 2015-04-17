@@ -27,6 +27,23 @@ h3 {
   margin-top: 30px;
 }
 
+.btn-success {
+  background-color: #107318;
+  border-color: #08400C;
+  float: right;
+}
+
+.delete-pizza {
+  cursor: pointer;
+  color: #400000;
+  display: inline-block;
+  padding: 10px 0;
+}
+
+.delete-pizza:hover {
+  text-decoration: underline;
+}
+
 #placed-orders {
   visibility: hidden;
 }
@@ -35,13 +52,19 @@ h3 {
   display: none;
 }
 
-.cancel-order {
+.order {
+  padding: 10px 0;
+  border-bottom: 1px solid #FAFAFA;
+}
+
+.order__cancel-order {
   color: black;
   text-decoration: underline;
   cursor: pointer;
   padding-left: 20px;
+  float: right;
 }
 
-.cancel-order:hover {
+.order__cancel-order:hover {
   text-decoration: none;
 }

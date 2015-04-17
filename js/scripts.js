@@ -52,18 +52,24 @@ $(function() {
     //if we returned a valid cost number then add it to our placed orders
     if(typeof(cost) === "number") {
 
-      //add a order to the list of orders
+      //add an order div to append all the order details to
       var $orderDiv = $('<div class="order"></div>');
-      var orderTitle = '<p>Order Name: ' + patronName + ' Total: ' + cost + '<span class="cancel-order glyphicon glyphicon-remove"></span></p>';
+      //create title text to add to the div with the delete button
+      var orderTitle = '<p>Order Name: ' + patronName + '<span title="Cancel Order" class="order__cancel-order glyphicon glyphicon-remove"></span></p>';
+      //create total text to add to bottom of order div
+      var orderTotal = '<p>Amount Total: $' + cost + '</p>';
+      //create orderList element to append things to
       var $orderList = $('<ul class="order__order-details"></ul>');
+      //append all details to the list
       $orderList.append('<li>' + 1 + ' x ' + pizza.name + '</li>')
 
       $orderDiv.append(orderTitle);
       $orderDiv.append($orderList);
+      $orderDiv.append(orderTotal);
 
       $("#order-list").append($orderDiv);
 
-      $(".cancel-order").last().click(function() {
+      $(".order__cancel-order").last().click(function() {
         $(this).parent().parent().remove();
         if($("#order-list").children().length === 0) {
           $("#placed-orders").css("visibility", "hidden");
@@ -78,6 +84,22 @@ $(function() {
       $("#error").show();
     }
 
+
+  });
+
+  //when the user clicks the add pizza button
+  $("#add-pizza").click(function() {
+    //store a copy of the first <select> for the pizza types
+    var $pizzaSelect = $(".select-pizza").first().clone();
+    //add a button to remove it
+    $pizzaSelect.append('<span class="delete-pizza">Remove</span>')
+    //append it to our list of pizzas on the form
+    $("#pizza-list").append($pizzaSelect);
+
+    //add click listener for the deletion to it
+    $(".delete-pizza").last().click(function() {
+      $(this).parent().remove();
+    });
 
   });
 
