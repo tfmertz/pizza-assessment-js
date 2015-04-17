@@ -678,7 +678,7 @@ var used = []
  * Chai version
  */
 
-exports.version = '2.2.0';
+exports.version = '2.1.0';
 
 /*!
  * Assertion Error
@@ -852,11 +852,10 @@ module.exports = function (_chai, util) {
    *
    * @name assert
    * @param {Philosophical} expression to be tested
-   * @param {String or Function} message or function that returns message to display if expression fails
+   * @param {String or Function} message or function that returns message to display if fails
    * @param {String or Function} negatedMessage or function that returns negatedMessage to display if negated expression fails
    * @param {Mixed} expected value (remember to check for negation)
    * @param {Mixed} actual (optional) will default to `this.obj`
-   * @param {Boolean} showDiff (optional) when set to `true`, assert will display a diff in addition to the message if expression fails
    * @api private
    */
 
@@ -933,15 +932,10 @@ module.exports = {
    * ### config.truncateThreshold
    *
    * User configurable property, sets length threshold for actual and
-   * expected values in assertion errors. If this threshold is exceeded, for
-   * example for large data structures, the value is replaced with something
-   * like `[ Array(3) ]` or `{ Object (prop1, prop2) }`.
+   * expected values in assertion errors. If this threshold is exceeded,
+   * the value is truncated.
    *
    * Set it to zero if you want to disable truncating altogether.
-   *
-   * This is especially userful when doing assertions on arrays: having this
-   * set to a reasonable large value makes the failure messages readily
-   * inspectable.
    *
    *     chai.config.truncateThreshold = 0;  // disable truncating
    *
@@ -1032,12 +1026,6 @@ module.exports = function (chai, _) {
    *     expect(foo).to.deep.equal({ bar: 'baz' });
    *     expect({ foo: { bar: { baz: 'quux' } } })
    *       .to.have.deep.property('foo.bar.baz', 'quux');
-   *
-   * `.deep.property` special characters can be escaped
-   * by adding two slashes before the `.` or `[]`.
-   *
-   *     var deepCss = { '.link': { '[target]': 42 }};
-   *     expect(deepCss).to.have.deep.property('\\.link.\\[target\\]', 42);
    *
    * @name deep
    * @api public
@@ -1312,7 +1300,7 @@ module.exports = function (chai, _) {
   /**
    * ### .empty
    *
-   * Asserts that the target's length is `0`. For arrays and strings, it checks
+   * Asserts that the target's length is `0`. For arrays, it checks
    * the `length` property. For objects, it gets the count of
    * enumerable keys.
    *
@@ -1725,7 +1713,7 @@ module.exports = function (chai, _) {
    *         green: { tea: 'matcha' }
    *       , teas: [ 'chai', 'matcha', { tea: 'konacha' } ]
    *     };
-   *
+
    *     expect(deepObj).to.have.deep.property('green.tea', 'matcha');
    *     expect(deepObj).to.have.deep.property('teas[1]', 'matcha');
    *     expect(deepObj).to.have.deep.property('teas[2].tea', 'konacha');
@@ -1756,18 +1744,6 @@ module.exports = function (chai, _) {
    *       .that.is.an('array')
    *       .with.deep.property('[2]')
    *         .that.deep.equals({ tea: 'konacha' });
-   *
-   * Note that dots and bracket in `name` must be backslash-escaped when
-   * the `deep` flag is set, while they must NOT be escaped when the `deep`
-   * flag is not set.
-   *
-   *     // simple referencing
-   *     var css = { '.link[target]': 42 };
-   *     expect(css).to.have.property('.link[target]', 42);
-   *
-   *     // deep referencing
-   *     var deepCss = { '.link': { '[target]': 42 }};
-   *     expect(deepCss).to.have.deep.property('\\.link.\\[target\\]', 42);
    *
    * @name property
    * @alias deep.property
@@ -3518,36 +3494,10 @@ module.exports = function (chai, util) {
    */
 
   assert.operator = function (val, operator, val2, msg) {
-    var ok;
-    switch(operator) {
-      case '==':
-        ok = val == val2;
-        break;
-      case '===':
-        ok = val === val2;
-        break;
-      case '>':
-        ok = val > val2;
-        break;
-      case '>=':
-        ok = val >= val2;
-        break;
-      case '<':
-        ok = val < val2;
-        break;
-      case '<=':
-        ok = val <= val2;
-        break;
-      case '!=':
-        ok = val != val2;
-        break;
-      case '!==':
-        ok = val !== val2;
-        break;
-      default:
-        throw new Error('Invalid operator "' + operator + '"');
+    if (!~['==', '===', '>', '>=', '<', '<=', '!=', '!=='].indexOf(operator)) {
+      throw new Error('Invalid operator "' + operator + '"');
     }
-    var test = new Assertion(ok, msg);
+    var test = new Assertion(eval(val + operator + val2), msg);
     test.assert(
         true === flag(test, 'object')
       , 'expected ' + util.inspect(val) + ' to be ' + operator + ' ' + util.inspect(val2)
@@ -3828,8 +3778,10 @@ module.exports = function (chai, util) {
   function loadShould () {
     // explicitly define this method as function as to have it's name to include as `ssfi`
     function shouldGetter() {
-      if (this instanceof String || this instanceof Number || this instanceof Boolean ) {
-        return new Assertion(this.valueOf(), null, shouldGetter);
+      if (this instanceof String || this instanceof Number) {
+        return new Assertion(this.constructor(this), null, shouldGetter);
+      } else if (this instanceof Boolean) {
+        return new Assertion(this == true, null, shouldGetter);
       }
       return new Assertion(this, null, shouldGetter);
     }
@@ -4369,7 +4321,7 @@ module.exports = function getPathInfo(path, obj) {
       last = parsed[parsed.length - 1];
 
   var info = {
-    parent: parsed.length > 1 ? _getPathValue(parsed, obj, parsed.length - 1) : obj,
+    parent: _getPathValue(parsed, obj, parsed.length - 1),
     name: last.p || last.i,
     value: _getPathValue(parsed, obj),
   };
@@ -4391,7 +4343,6 @@ module.exports = function getPathInfo(path, obj) {
  *
  * * Can be as near infinitely deep and nested
  * * Arrays are also valid using the formal `myobject.document[3].property`.
- * * Literal dots and brackets (not delimiter) must be backslash-escaped.
  *
  * @param {String} path
  * @returns {Object} parsed
@@ -4399,13 +4350,13 @@ module.exports = function getPathInfo(path, obj) {
  */
 
 function parsePath (path) {
-  var str = path.replace(/([^\\])\[/g, '$1.[')
+  var str = path.replace(/\[/g, '.[')
     , parts = str.match(/(\\\.|[^.]+?)+/g);
   return parts.map(function (value) {
-    var re = /^\[(\d+)\]$/
+    var re = /\[(\d+)\]$/
       , mArr = re.exec(value);
     if (mArr) return { i: parseFloat(mArr[1]) };
-    else return { p: value.replace(/\\([.\[\]])/g, '$1') };
+    else return { p: value };
   });
 }
 
