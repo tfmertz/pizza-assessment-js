@@ -48,19 +48,21 @@ $(function() {
     var totalCost = 0;
     var validInput = true;
 
-    $(".pizza-type").each(function() {
+    $(".select-pizza").each(function() {
       //create a pizza object
       var pizza = Object.create(Pizza);
       //initialize it with the value from this current select
-      var pizzaNumber = parseInt($(this).val());
-      pizza.init(pizzaNumber);
+      var pizzaType = parseInt($(this).find(".pizza-type").val());
+      pizza.init(pizzaType);
+      //find how many of that pizza we want
+      var pizzaNumber = parseInt($(this).find(".pizza-quantity").val());
       //add its cost to the total if it is a valid pizza
-      pizzaCost = pizza.cost();
+      pizzaCost = pizza.cost() * pizzaNumber;
 
       if(typeof(pizzaCost) === "number") {
 
-        pizzaArray.push('<li>' + 1 + ' x ' + pizza.name + '</li>');
-        totalCost += pizza.cost();
+        pizzaArray.push('<li>' + pizzaNumber + ' x ' + pizza.name + '<span class="pizza-cost">$' + pizzaCost +'</span></li>');
+        totalCost += pizzaCost;
         console.log(pizzaArray);
       } else {
         //if not make a flag to show the error and skip the rest
@@ -75,9 +77,9 @@ $(function() {
       //add an order div to append all the order details to
       var $orderDiv = $('<div class="order"></div>');
       //create title text to add to the div with the delete button
-      var orderTitle = '<p>Order Name: ' + patronName + '<span title="Cancel Order" class="order__cancel-order glyphicon glyphicon-remove"></span></p>';
+      var orderTitle = '<h4>Order Name: ' + patronName + '<span title="Cancel Order" class="order__cancel-order glyphicon glyphicon-remove"></span></h4>';
       //create total text to add to bottom of order div
-      var orderTotal = '<p>Amount Total: $' + totalCost + '</p>';
+      var orderTotal = '<p class="amount-total">Amount Total: $' + totalCost + '</p>';
       //create orderList element to append things to
       var $orderList = $('<ul class="order__order-details"></ul>');
       //append all pizzas from our array to the list

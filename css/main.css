@@ -68,3 +68,12 @@ h3 {
 .order__cancel-order:hover {
   text-decoration: none;
 }
+
+.amount-total {
+  text-align: right;
+  font-weight: bold;
+}
+
+.pizza-cost {
+  float: right;
+}
