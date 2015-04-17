@@ -15,6 +15,20 @@ describe("Pizza", function() {
       expect(pizza.cost()).to.equal(12);
     });
 
+    it("should give a price of 14 for a hawaiian pizza", function() {
+      var pizza = Object.create(Pizza)
+      pizza.init(3);
+
+      expect(pizza.cost()).to.equal(14);
+    });
+
+    it("should give a price of 15 for a supreme pizza", function() {
+      var pizza = Object.create(Pizza);
+      pizza.init(4);
+
+      expect(pizza.cost()).to.equal(15);
+    });
+
     it("should tell the user 'We don't offer that selection! if they input an invalid value", function() {
       var pizza = Object.create(Pizza);
       pizza.init(10);
