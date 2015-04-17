@@ -1,0 +1,25 @@
+header {
+  text-align: center;
+  padding: 40px 0;
+  box-shadow: 1px 1px 3px black;
+  /*background-color: #2B2828;*/
+  background-color: #001c0e;
+  background-image: url("3px-tile.png");
+
+}
+
+header h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 3.5em;
+}
+
+body {
+  color: #FAFAFA;
+  background-color: #C71E1E;
+  text-shadow: 1px 1px 1px #333;
+}
+
+#order-pizza {
+  margin-top: 15px;
+}
